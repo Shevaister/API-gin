@@ -5,8 +5,10 @@ import (
 	"API/pkg/handler"
 	"API/pkg/repository"
 	"API/pkg/service"
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"log"
+	"os"
 )
 
 func main() {
@@ -14,12 +16,15 @@ func main() {
 		log.Fatalf("failed to initialise configs: %s", err.Error())
 	}
 
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("failed to load environmental variables: %s", err.Error())
+	}
 	db, err := repository.NewSQLDB(repository.Config{
-		Host:     "localhost",
-		Port:     "3306",
-		Username: "root",
-		Password: "",
-		DBName:   "commentsdb",
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		Password: os.Getenv("DB_PASSWORD"),
+		DBName:   viper.GetString("db.dbname"),
 		//SSLMode:  "disable",
 	})
 	if err != nil {

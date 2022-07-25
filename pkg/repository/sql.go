@@ -17,8 +17,8 @@ type Config struct {
 
 func NewSQLDB(cfg Config) (*gorm.DB, error) {
 	//dsn := "root:@tcp(127.0.0.1:3306)/commentsdb?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(fmt.Sprintf("user=%s:password=%s@tcp(host=%s:port=%s)/dbname=%s?charset=utf8mb4&parseTime=True&loc=Local",
-		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DBName)), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
