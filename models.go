@@ -13,3 +13,9 @@ type Comments struct {
 	Email string `json:"email"`
 	Body  string `json:"body"`
 }
+
+type Users struct {
+	//Id       int    `json:"id"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}

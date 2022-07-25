@@ -1,8 +1,12 @@
 package repository
 
-import "gorm.io/gorm"
+import (
+	"API"
+	"gorm.io/gorm"
+)
 
 type Authorisation interface {
+	CreateUser(user API.Users) (int, error)
 }
 
 type Post interface {
@@ -18,5 +22,7 @@ type Repository struct {
 }
 
 func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorisation: NewAuthSQL(db),
+	}
 }

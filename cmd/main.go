@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	logrus.SetFormatter(new(logrus.JSONFormatter))
+
 	if err := initConfig(); err != nil {
 		logrus.Fatalf("failed to initialise configs: %s", err.Error())
 	}
@@ -36,7 +38,7 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(API.Server)
-	if err := srv.Run(viper.GetString(viper.GetString("8000")), handlers.InitRoutes()); err != nil {
+	if err := srv.Run(viper.GetString(viper.GetString("port")), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error occured while running http server: %s", err.Error())
 	}
 }

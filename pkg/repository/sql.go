@@ -6,6 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	postsTable    = "posts"
+	commentsTable = "comments"
+	usersTable    = "users"
+)
+
 type Config struct {
 	Host     string
 	Port     string
