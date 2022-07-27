@@ -7,6 +7,7 @@ import (
 
 type Authorisation interface {
 	CreateUser(user API.Users) (int, error)
+	GetUser(email, password string) API.Users
 }
 
 type Post interface {

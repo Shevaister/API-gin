@@ -2,6 +2,7 @@ package repository
 
 import (
 	"API"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -20,4 +21,11 @@ func (r *AuthSQL) CreateUser(user API.Users) (int, error) {
 	r.db.Last(&field)
 
 	return field.Id, nil
+}
+
+func (r *AuthSQL) GetUser(email, password string) API.Users {
+	var user API.Users
+	r.db.Raw(fmt.Sprintf("SELECT id FROM `%s` WHERE email = ? AND password = ?", usersTable), email, password).Scan(&user)
+
+	return user
 }
