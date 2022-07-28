@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Authorisation interface {
+type Authorization interface {
 	CreateUser(user API.Users) (int, error)
 	GetUser(email, password string) API.Users
 }
@@ -17,13 +17,13 @@ type Comment interface {
 }
 
 type Repository struct {
-	Authorisation
+	Authorization
 	Post
 	Comment
 }
 
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
-		Authorisation: NewAuthSQL(db),
+		Authorization: NewAuthSQL(db),
 	}
 }
