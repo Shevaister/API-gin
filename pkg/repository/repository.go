@@ -11,7 +11,7 @@ type Authorization interface {
 }
 
 type Post interface {
-	Create(userId int, post API.Posts) int
+	Create(userId int, post API.Posts) (int, error)
 }
 
 type Comment interface {

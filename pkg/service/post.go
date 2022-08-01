@@ -14,5 +14,5 @@ func NewPostService(repo repository.Post) *PostService {
 }
 
 func (s *PostService) Create(userId int, post API.Posts) (int, error) {
-	return s.repo.Create(userId, post), nil
+	return s.repo.Create(userId, post)
 }
