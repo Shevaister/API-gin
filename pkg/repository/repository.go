@@ -11,6 +11,7 @@ type Authorization interface {
 }
 
 type Post interface {
+	Create(userId int, post API.Posts) int
 }
 
 type Comment interface {
@@ -25,5 +26,6 @@ type Repository struct {
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthSQL(db),
+		Post:          NewPostSQL(db),
 	}
 }

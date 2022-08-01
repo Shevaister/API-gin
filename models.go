@@ -3,8 +3,8 @@ package API
 type Posts struct {
 	User  int    `json:"userId"`
 	Id    int    `json:"id"`
-	Title string `json:"title"`
-	Body  string `json:"body"`
+	Title string `json:"title" binding:"required"`
+	Body  string `json:"body" binding:"required"`
 }
 type Comments struct {
 	Post  int    `json:"postId"`

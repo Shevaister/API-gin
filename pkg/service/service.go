@@ -12,6 +12,7 @@ type Authorization interface {
 }
 
 type Post interface {
+	Create(userId int, post API.Posts) (int, error)
 }
 
 type Comment interface {
@@ -26,5 +27,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Post:          NewPostService(repos.Post),
 	}
 }
