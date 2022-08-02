@@ -28,17 +28,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			posts.POST("/", h.createPost)
 			posts.GET("/", h.getAllPosts)
-			posts.GET(":user_id", h.getPostById)
-			posts.PUT("/:user_id", h.updatePost)
-			posts.DELETE("/:user_id", h.deletePost)
+			posts.GET("/:post_id", h.getPostById)
+			posts.PUT("/:post_id", h.updatePost)
+			posts.DELETE("/:post_id", h.deletePost)
 
-			comments := posts.Group(":user_id/comments")
+			comments := posts.Group(":post_id/comments")
 			{
 				comments.POST("/", h.createComment)
 				comments.GET("/", h.getAllComments)
-				comments.GET("/:post_id", h.getCommentById)
-				comments.PUT("/:post_id", h.updateComment)
-				comments.DELETE("/:post_id", h.deleteComment)
+				comments.GET("/:comment_id", h.getCommentById)
+				comments.PUT("/:comment_id", h.updateComment)
+				comments.DELETE("/:comment_id", h.deleteComment)
 			}
 		}
 	}

@@ -1,10 +1,10 @@
 package API
 
 type Posts struct {
-	User  int    `json:"userId"`
-	Id    int    `json:"id"`
-	Title string `json:"title" binding:"required"`
-	Body  string `json:"body" binding:"required"`
+	User  int    `json:"userId" db:"user"`
+	Id    int    `json:"id" db:"id"`
+	Title string `json:"title" db:"title" binding:"required"`
+	Body  string `json:"body" db:"body" binding:"required"`
 }
 type Comments struct {
 	Post  int    `json:"postId"`

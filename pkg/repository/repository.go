@@ -12,6 +12,8 @@ type Authorization interface {
 
 type Post interface {
 	Create(userId int, post API.Posts) (int, error)
+	GetAll(userId int) ([]API.Posts, error)
+	GetById(userId, postId int) (API.Posts, error)
 }
 
 type Comment interface {

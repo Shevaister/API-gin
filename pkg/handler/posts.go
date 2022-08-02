@@ -4,6 +4,7 @@ import (
 	"API"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func (h *Handler) createPost(c *gin.Context) {
@@ -29,12 +30,46 @@ func (h *Handler) createPost(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getAllPosts(c *gin.Context) {
+type getAllPostsResponse struct {
+	Data []API.Posts `json:"data"`
+}
 
+func (h *Handler) getAllPosts(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	posts, err := h.services.Post.GetAll(userId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllPostsResponse{
+		Data: posts,
+	})
 }
 
 func (h *Handler) getPostById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	id, err := strconv.Atoi(c.Param("post_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	post, err := h.services.Post.GetById(userId, id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, post)
 }
 
 func (h *Handler) updatePost(c *gin.Context) {

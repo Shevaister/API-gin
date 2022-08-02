@@ -16,3 +16,11 @@ func NewPostService(repo repository.Post) *PostService {
 func (s *PostService) Create(userId int, post API.Posts) (int, error) {
 	return s.repo.Create(userId, post)
 }
+
+func (s *PostService) GetAll(userId int) ([]API.Posts, error) {
+	return s.repo.GetAll(userId)
+}
+
+func (s *PostService) GetById(userId, postId int) (API.Posts, error) {
+	return s.repo.GetById(userId, postId)
+}

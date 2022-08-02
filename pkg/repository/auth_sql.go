@@ -16,11 +16,11 @@ func NewAuthSQL(db *gorm.DB) *AuthSQL {
 
 func (r *AuthSQL) CreateUser(user API.Users) (int, error) {
 	field := API.Users{Email: user.Email, Password: user.Password}
-	r.db.Create(&field)
+	err := r.db.Create(&field).Error
 	r.db.Select(field, "email", "password")
 	r.db.Last(&field)
 
-	return field.Id, nil
+	return field.Id, err
 }
 
 func (r *AuthSQL) GetUser(email, password string) API.Users {
