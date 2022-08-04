@@ -2,9 +2,7 @@ package repository
 
 import (
 	"API"
-	"fmt"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 type PostSQL struct {
@@ -17,9 +15,8 @@ func NewPostSQL(db *gorm.DB) *PostSQL {
 
 func (r *PostSQL) Create(userId int, post API.Posts) (int, error) {
 	field := API.Posts{User: userId, Title: post.Title, Body: post.Body}
-	err := r.db.Create(&field).Error
-	r.db.Select(field, "user", "title", "body")
-	r.db.Last(&field)
+
+	err := r.db.Create(&field).Select(field, "user", "title", "body").Last(&field).Error
 
 	return field.Id, err
 }
@@ -27,7 +24,7 @@ func (r *PostSQL) Create(userId int, post API.Posts) (int, error) {
 func (r *PostSQL) GetAll(userId int) ([]API.Posts, error) {
 	var posts []API.Posts
 
-	err := r.db.Raw(fmt.Sprintf("SELECT * FROM `%s` WHERE `user` = ?", postsTable), userId).Scan(&posts).Error
+	err := r.db.Find(&posts, userId).Error
 
 	return posts, err
 }
@@ -35,8 +32,7 @@ func (r *PostSQL) GetAll(userId int) ([]API.Posts, error) {
 func (r *PostSQL) GetById(userId, postId int) (API.Posts, error) {
 	var post API.Posts
 
-	err := r.db.Raw(fmt.Sprintf("SELECT * FROM `%s` WHERE `user` = ? AND `id` = ?", postsTable),
-		userId, postId).Scan(&post).Error
+	err := r.db.Find(&post, userId, postId).Error
 
 	return post, err
 }
@@ -44,11 +40,7 @@ func (r *PostSQL) GetById(userId, postId int) (API.Posts, error) {
 func (r *PostSQL) Delete(userId, postId int) error {
 	var post API.Posts
 
-	err := r.db.Raw(fmt.Sprintf("DELETE FROM %s AS pt WHERE pt.user = ? AND pt.id = ?",
-		postsTable), userId, postId).Error
-
-	r.db.Unscoped().Where(fmt.Sprintf("user = %s AND id = %s", strconv.Itoa(userId), strconv.Itoa(postId))).Find(&post)
-	r.db.Unscoped().Delete(&post)
+	err := r.db.Find(&post, userId, postId).Delete(&post).Error
 
 	return err
 }
