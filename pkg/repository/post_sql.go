@@ -39,3 +39,10 @@ func (r *PostSQL) GetById(userId, postId int) (API.Posts, error) {
 
 	return post, err
 }
+
+func (r *PostSQL) Delete(userId, postId int) error {
+	err := r.db.Raw(fmt.Sprintf("DELETE FROM %s AS pt WHERE pt.user = ? AND pt.id = ?",
+		postsTable), userId, postId).Error
+
+	return err
+}

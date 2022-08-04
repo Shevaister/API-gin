@@ -24,3 +24,7 @@ func (s *PostService) GetAll(userId int) ([]API.Posts, error) {
 func (s *PostService) GetById(userId, postId int) (API.Posts, error) {
 	return s.repo.GetById(userId, postId)
 }
+
+func (s *PostService) Delete(userId, postId int) error {
+	return s.repo.Delete(userId, postId)
+}
