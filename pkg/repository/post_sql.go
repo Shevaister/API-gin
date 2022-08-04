@@ -4,6 +4,7 @@ import (
 	"API"
 	"fmt"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 type PostSQL struct {
@@ -41,8 +42,13 @@ func (r *PostSQL) GetById(userId, postId int) (API.Posts, error) {
 }
 
 func (r *PostSQL) Delete(userId, postId int) error {
+	var post API.Posts
+
 	err := r.db.Raw(fmt.Sprintf("DELETE FROM %s AS pt WHERE pt.user = ? AND pt.id = ?",
 		postsTable), userId, postId).Error
+
+	r.db.Unscoped().Where(fmt.Sprintf("user = %s AND id = %s", strconv.Itoa(userId), strconv.Itoa(postId))).Find(&post)
+	r.db.Unscoped().Delete(&post)
 
 	return err
 }
