@@ -1,5 +1,7 @@
 package API
 
+import "github.com/pkg/errors"
+
 type Posts struct {
 	User  int    `json:"userId" db:"user"`
 	Id    int    `json:"id" db:"id"`
@@ -19,4 +21,16 @@ type Users struct {
 	Id       int    `json:"-" db:"id"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required"`
+}
+
+type UpdatePostInput struct {
+	Title *string `json:"title"`
+	Body  *string `json:"body"`
+}
+
+func (i UpdatePostInput) Validate() error {
+	if i.Title == nil && i.Body == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
 }

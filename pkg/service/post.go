@@ -28,3 +28,10 @@ func (s *PostService) GetById(userId, postId int) (API.Posts, error) {
 func (s *PostService) Delete(userId, postId int) error {
 	return s.repo.Delete(userId, postId)
 }
+
+func (s *PostService) Update(userId, postId int, input API.UpdatePostInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, postId, input)
+}

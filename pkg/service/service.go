@@ -16,6 +16,7 @@ type Post interface {
 	GetAll(userId int) ([]API.Posts, error)
 	GetById(userId, postId int) (API.Posts, error)
 	Delete(userId, postId int) error
+	Update(userId, postId int, input API.UpdatePostInput) error
 }
 
 type Comment interface {

@@ -45,3 +45,10 @@ func (r *PostSQL) Delete(userId, postId int) error {
 
 	return err
 }
+
+func (r *PostSQL) Update(userId, postId int, input API.UpdatePostInput) error {
+	err := r.db.Where(API.Posts{User: userId, Id: postId}).Updates(API.Posts{Title: *input.Title,
+		Body: *input.Body}).Error
+
+	return err
+}
