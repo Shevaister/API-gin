@@ -6,6 +6,7 @@ type Posts struct {
 	Title string `json:"title" db:"title" binding:"required"`
 	Body  string `json:"body" db:"body" binding:"required"`
 }
+
 type Comments struct {
 	Post  int    `json:"postId"`
 	Id    int    `json:"id"`
