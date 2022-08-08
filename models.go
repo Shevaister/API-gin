@@ -10,11 +10,11 @@ type Posts struct {
 }
 
 type Comments struct {
-	Post  int    `json:"postId"`
-	Id    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Body  string `json:"body"`
+	Post  int    `json:"postId" db:"post"`
+	Id    int    `json:"id" db:"id"`
+	Name  string `json:"name" db:"name"`
+	Email string `json:"email" db:"email"`
+	Body  string `json:"body" db:"body" binding:"required"`
 }
 
 type Users struct {
@@ -29,7 +29,19 @@ type UpdatePostInput struct {
 }
 
 func (i UpdatePostInput) Validate() error {
-	if i.Title == nil && i.Body == nil {
+	if i.Body == nil || i.Title == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+type UpdateCommentInput struct {
+	Name *string `json:"name"`
+	Body *string `json:"body"`
+}
+
+func (i UpdateCommentInput) Validate() error {
+	if i.Name == nil || i.Body == nil {
 		return errors.New("update structure has no values")
 	}
 	return nil

@@ -13,25 +13,26 @@ func NewPostService(repo repository.Post) *PostService {
 	return &PostService{repo: repo}
 }
 
-func (s *PostService) Create(userId int, post API.Posts) (int, error) {
-	return s.repo.Create(userId, post)
+func (s *PostService) CreatePost(userId int, post API.Posts) (int, error) {
+	return s.repo.CreatePost(userId, post)
 }
 
-func (s *PostService) GetAll(userId int) ([]API.Posts, error) {
-	return s.repo.GetAll(userId)
+func (s *PostService) GetAllPosts(userId int) ([]API.Posts, error) {
+	return s.repo.GetAllPosts(userId)
 }
 
-func (s *PostService) GetById(userId, postId int) (API.Posts, error) {
-	return s.repo.GetById(userId, postId)
+func (s *PostService) GetPostById(userId, postId int) (API.Posts, error) {
+	return s.repo.GetPostById(userId, postId)
 }
 
-func (s *PostService) Delete(userId, postId int) error {
-	return s.repo.Delete(userId, postId)
-}
-
-func (s *PostService) Update(userId, postId int, input API.UpdatePostInput) error {
+func (s *PostService) UpdatePost(userId, postId int, input API.UpdatePostInput) error {
 	if err := input.Validate(); err != nil {
 		return err
 	}
-	return s.repo.Update(userId, postId, input)
+
+	return s.repo.UpdatePost(userId, postId, input)
+}
+
+func (s *PostService) DeletePost(userId, postId int) error {
+	return s.repo.DeletePost(userId, postId)
 }

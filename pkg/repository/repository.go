@@ -7,18 +7,23 @@ import (
 
 type Authorization interface {
 	CreateUser(user API.Users) (int, error)
-	GetUser(email, password string) API.Users
+	GetUser(email, password string) (API.Users, error)
 }
 
 type Post interface {
-	Create(userId int, post API.Posts) (int, error)
-	GetAll(userId int) ([]API.Posts, error)
-	GetById(userId, postId int) (API.Posts, error)
-	Delete(userId, postId int) error
-	Update(userId, postId int, input API.UpdatePostInput) error
+	CreatePost(userId int, post API.Posts) (int, error)
+	GetAllPosts(userId int) ([]API.Posts, error)
+	GetPostById(userId, postId int) (API.Posts, error)
+	UpdatePost(userId, postId int, input API.UpdatePostInput) error
+	DeletePost(userId, postId int) error
 }
 
 type Comment interface {
+	CreateComment(userId, postId int, comment API.Comments) (int, error)
+	GetAllComments(userId int) ([]API.Comments, error)
+	GetCommentById(postId, commentId int) (API.Comments, error)
+	UpdateComment(commentId int, input API.UpdateCommentInput) error
+	DeleteComment(commentId int) error
 }
 
 type Repository struct {
@@ -31,5 +36,6 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthSQL(db),
 		Post:          NewPostSQL(db),
+		Comment:       NewCommentSQL(db),
 	}
 }

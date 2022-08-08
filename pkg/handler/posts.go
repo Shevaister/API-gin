@@ -19,7 +19,7 @@ func (h *Handler) createPost(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.Post.Create(userId, input)
+	id, err := h.services.Post.CreatePost(userId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -40,7 +40,7 @@ func (h *Handler) getAllPosts(c *gin.Context) {
 		return
 	}
 
-	posts, err := h.services.Post.GetAll(userId)
+	posts, err := h.services.Post.GetAllPosts(userId)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -63,7 +63,7 @@ func (h *Handler) getPostById(c *gin.Context) {
 		return
 	}
 
-	post, err := h.services.Post.GetById(userId, id)
+	post, err := h.services.Post.GetPostById(userId, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -90,7 +90,7 @@ func (h *Handler) updatePost(c *gin.Context) {
 		return
 	}
 
-	if err := h.services.Update(userId, id, input); err != nil {
+	if err := h.services.UpdatePost(userId, id, input); err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -109,7 +109,7 @@ func (h *Handler) deletePost(c *gin.Context) {
 		return
 	}
 
-	err = h.services.Post.Delete(userId, id)
+	err = h.services.Post.DeletePost(userId, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

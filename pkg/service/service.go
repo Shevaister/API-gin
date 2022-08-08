@@ -12,14 +12,19 @@ type Authorization interface {
 }
 
 type Post interface {
-	Create(userId int, post API.Posts) (int, error)
-	GetAll(userId int) ([]API.Posts, error)
-	GetById(userId, postId int) (API.Posts, error)
-	Delete(userId, postId int) error
-	Update(userId, postId int, input API.UpdatePostInput) error
+	CreatePost(userId int, post API.Posts) (int, error)
+	GetAllPosts(userId int) ([]API.Posts, error)
+	GetPostById(userId, postId int) (API.Posts, error)
+	UpdatePost(userId, postId int, input API.UpdatePostInput) error
+	DeletePost(userId, postId int) error
 }
 
 type Comment interface {
+	CreateComment(userId, postId int, comment API.Comments) (int, error)
+	GetAllComments(postId int) ([]API.Comments, error)
+	GetCommentById(postId, commentId int) (API.Comments, error)
+	UpdateComment(commentId int, input API.UpdateCommentInput) error
+	DeleteComment(commentId int) error
 }
 
 type Service struct {
@@ -32,5 +37,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		Post:          NewPostService(repos.Post),
+		Comment:       NewCommentService(repos.Comment, repos.Post),
 	}
 }

@@ -6,11 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
-const (
+/*const (
 	postsTable    = "posts"
 	commentsTable = "comments"
 	usersTable    = "users"
-)
+)*/
 
 type Config struct {
 	Host     string
@@ -24,7 +24,7 @@ type Config struct {
 func NewSQLDB(cfg Config) (*gorm.DB, error) {
 	//dsn := "root:@tcp(127.0.0.1:3306)/commentsdb?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)), &gorm.Config{})
+		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)), &gorm.Config{DisableAutomaticPing: false})
 	if err != nil {
 		return nil, err
 	}
