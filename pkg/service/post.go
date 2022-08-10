@@ -13,19 +13,19 @@ func NewPostService(repo repository.Post) *PostService {
 	return &PostService{repo: repo}
 }
 
-func (s *PostService) CreatePost(userId int, post API.Posts) (int, error) {
+func (s *PostService) CreatePost(userId int, post API_gin.Posts) (int, error) {
 	return s.repo.CreatePost(userId, post)
 }
 
-func (s *PostService) GetAllPosts(userId int) ([]API.Posts, error) {
+func (s *PostService) GetAllPosts(userId int) ([]API_gin.Posts, error) {
 	return s.repo.GetAllPosts(userId)
 }
 
-func (s *PostService) GetPostById(userId, postId int) (API.Posts, error) {
+func (s *PostService) GetPostById(userId, postId int) (API_gin.Posts, error) {
 	return s.repo.GetPostById(userId, postId)
 }
 
-func (s *PostService) UpdatePost(userId, postId int, input API.UpdatePostInput) error {
+func (s *PostService) UpdatePost(userId, postId int, input API_gin.UpdatePostInput) error {
 	if err := input.Validate(); err != nil {
 		return err
 	}

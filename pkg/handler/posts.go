@@ -13,7 +13,7 @@ func (h *Handler) createPost(c *gin.Context) {
 		return
 	}
 
-	var input API.Posts
+	var input API_gin.Posts
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -31,7 +31,7 @@ func (h *Handler) createPost(c *gin.Context) {
 }
 
 type getAllPostsResponse struct {
-	Data []API.Posts `json:"data"`
+	Data []API_gin.Posts `json:"data"`
 }
 
 func (h *Handler) getAllPosts(c *gin.Context) {
@@ -84,7 +84,7 @@ func (h *Handler) updatePost(c *gin.Context) {
 		return
 	}
 
-	var input API.UpdatePostInput
+	var input API_gin.UpdatePostInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

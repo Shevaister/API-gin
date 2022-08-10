@@ -8,7 +8,7 @@ import (
 )
 
 func (h *Handler) createComment(c *gin.Context) {
-	var input API.Comments
+	var input API_gin.Comments
 
 	postId, err := strconv.Atoi(c.Param("post_id"))
 	if err != nil {
@@ -38,7 +38,7 @@ func (h *Handler) createComment(c *gin.Context) {
 }
 
 type getAllCommentsResponse struct {
-	Data []API.Comments `json:"data"`
+	Data []API_gin.Comments `json:"data"`
 }
 
 func (h *Handler) getAllComments(c *gin.Context) {
@@ -88,7 +88,7 @@ func (h *Handler) updateComment(c *gin.Context) {
 		return
 	}
 
-	var input API.UpdateCommentInput
+	var input API_gin.UpdateCommentInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

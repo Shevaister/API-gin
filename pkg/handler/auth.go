@@ -7,7 +7,7 @@ import (
 )
 
 func (h *Handler) signUp(c *gin.Context) {
-	var input API.Users
+	var input API_gin.Users
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())

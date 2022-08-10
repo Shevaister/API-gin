@@ -14,7 +14,7 @@ func NewCommentService(repo repository.Comment, postRepo repository.Post) *Comme
 	return &CommentService{repo: repo, postRepo: postRepo}
 }
 
-func (s *CommentService) CreateComment(userId, postId int, comment API.Comments) (int, error) {
+func (s *CommentService) CreateComment(userId, postId int, comment API_gin.Comments) (int, error) {
 	_, err := s.postRepo.GetPostById(userId, postId)
 	if err != nil {
 		return 0, err
@@ -23,15 +23,15 @@ func (s *CommentService) CreateComment(userId, postId int, comment API.Comments)
 	return s.repo.CreateComment(userId, postId, comment)
 }
 
-func (s *CommentService) GetAllComments(userId int) ([]API.Comments, error) {
+func (s *CommentService) GetAllComments(userId int) ([]API_gin.Comments, error) {
 	return s.repo.GetAllComments(userId)
 }
 
-func (s *CommentService) GetCommentById(postId, commentId int) (API.Comments, error) {
+func (s *CommentService) GetCommentById(postId, commentId int) (API_gin.Comments, error) {
 	return s.repo.GetCommentById(postId, commentId)
 }
 
-func (s *CommentService) UpdateComment(commentId int, input API.UpdateCommentInput) error {
+func (s *CommentService) UpdateComment(commentId int, input API_gin.UpdateCommentInput) error {
 	if err := input.Validate(); err != nil {
 		return err
 	}

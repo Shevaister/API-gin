@@ -1,4 +1,4 @@
-package API
+package API_gin
 
 import "github.com/pkg/errors"
 

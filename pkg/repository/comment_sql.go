@@ -13,12 +13,12 @@ func NewCommentSQL(db *gorm.DB) *CommentSQL {
 	return &CommentSQL{db: db}
 }
 
-func (r *CommentSQL) CreateComment(userId, postId int, comment API.Comments) (int, error) {
-	var user API.Users
+func (r *CommentSQL) CreateComment(userId, postId int, comment API_gin.Comments) (int, error) {
+	var user API_gin.Users
 
 	r.db.Table("users").Take(&user).Where(userId)
 
-	field := API.Comments{Post: postId, Name: comment.Name,
+	field := API_gin.Comments{Post: postId, Name: comment.Name,
 		Email: user.Email, Body: comment.Body}
 
 	err := r.db.Create(&field).Error
@@ -27,16 +27,16 @@ func (r *CommentSQL) CreateComment(userId, postId int, comment API.Comments) (in
 	return field.Id, err
 }
 
-func (r *CommentSQL) GetAllComments(postId int) ([]API.Comments, error) {
-	var comments []API.Comments
+func (r *CommentSQL) GetAllComments(postId int) ([]API_gin.Comments, error) {
+	var comments []API_gin.Comments
 
-	err := r.db.Where(API.Comments{Post: postId}).Find(&comments).Error
+	err := r.db.Where(API_gin.Comments{Post: postId}).Find(&comments).Error
 
 	return comments, err
 }
 
-func (r *CommentSQL) GetCommentById(postId, commentId int) (API.Comments, error) {
-	var comment API.Comments
+func (r *CommentSQL) GetCommentById(postId, commentId int) (API_gin.Comments, error) {
+	var comment API_gin.Comments
 
 	err := r.db.First(&comment, postId, commentId).Error
 
@@ -44,15 +44,15 @@ func (r *CommentSQL) GetCommentById(postId, commentId int) (API.Comments, error)
 }
 
 func (r *CommentSQL) DeleteComment(commentId int) error {
-	var comment API.Comments
+	var comment API_gin.Comments
 
-	err := r.db.Where(API.Comments{Id: commentId}).Delete(&comment).Error
+	err := r.db.Where(API_gin.Comments{Id: commentId}).Delete(&comment).Error
 
 	return err
 }
 
-func (r *CommentSQL) UpdateComment(commentId int, input API.UpdateCommentInput) error {
-	err := r.db.Where(API.Comments{Id: commentId}).Updates(API.Comments{Body: *input.Body}).Error
+func (r *CommentSQL) UpdateComment(commentId int, input API_gin.UpdateCommentInput) error {
+	err := r.db.Where(API_gin.Comments{Id: commentId}).Updates(API_gin.Comments{Body: *input.Body}).Error
 
 	return err
 }
